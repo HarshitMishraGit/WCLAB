@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Thu Mar 30 15:29:17 2023
+# Generated: Thu Mar 30 15:43:42 2023
 ##################################################
 
 if __name__ == '__main__':
@@ -158,11 +158,12 @@ class top_block(gr.top_block, Qt.QWidget):
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_float*1, samp_rate,True)
         self.blocks_multiply_xx_1 = blocks.multiply_vff(1)
         self.blocks_multiply_xx_0 = blocks.multiply_vff(1)
+        self.blocks_delay_0_0 = blocks.delay(gr.sizeof_float*1, 2)
         self.blocks_delay_0 = blocks.delay(gr.sizeof_float*1, 16)
         self.blocks_add_xx_0 = blocks.add_vff(1)
-        self.analog_sig_source_x_0 = analog.sig_source_f(samp_rate, analog.GR_COS_WAVE, 5000, 4, 0)
+        self.analog_sig_source_x_0 = analog.sig_source_f(samp_rate, analog.GR_SIN_WAVE, 8000, 4, 0)
         self.Message = analog.sig_source_f(samp_rate, analog.GR_SQR_WAVE, 1000, 1, 0)
-        self.Carrier = analog.sig_source_f(samp_rate, analog.GR_COS_WAVE, 10000, 4, 0)
+        self.Carrier = analog.sig_source_f(samp_rate, analog.GR_SIN_WAVE, 8000, 4, 0)
 
         ##################################################
         # Connections
@@ -171,9 +172,10 @@ class top_block(gr.top_block, Qt.QWidget):
         self.connect((self.Message, 0), (self.blocks_delay_0, 0))    
         self.connect((self.Message, 0), (self.blocks_multiply_xx_0, 1))    
         self.connect((self.Message, 0), (self.qtgui_time_sink_x_0_0, 0))    
-        self.connect((self.analog_sig_source_x_0, 0), (self.blocks_multiply_xx_1, 1))    
+        self.connect((self.analog_sig_source_x_0, 0), (self.blocks_delay_0_0, 0))    
         self.connect((self.blocks_add_xx_0, 0), (self.blocks_throttle_0, 0))    
         self.connect((self.blocks_delay_0, 0), (self.blocks_multiply_xx_1, 0))    
+        self.connect((self.blocks_delay_0_0, 0), (self.blocks_multiply_xx_1, 1))    
         self.connect((self.blocks_multiply_xx_0, 0), (self.blocks_add_xx_0, 0))    
         self.connect((self.blocks_multiply_xx_1, 0), (self.blocks_add_xx_0, 1))    
         self.connect((self.blocks_throttle_0, 0), (self.qtgui_time_sink_x_0, 0))    
@@ -189,12 +191,12 @@ class top_block(gr.top_block, Qt.QWidget):
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-        self.Carrier.set_sampling_freq(self.samp_rate)
         self.Message.set_sampling_freq(self.samp_rate)
-        self.analog_sig_source_x_0.set_sampling_freq(self.samp_rate)
-        self.blocks_throttle_0.set_sample_rate(self.samp_rate)
-        self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
         self.qtgui_time_sink_x_0_0.set_samp_rate(self.samp_rate)
+        self.Carrier.set_sampling_freq(self.samp_rate)
+        self.analog_sig_source_x_0.set_sampling_freq(self.samp_rate)
+        self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
+        self.blocks_throttle_0.set_sample_rate(self.samp_rate)
 
     def get_numpoints(self):
         return self.numpoints
