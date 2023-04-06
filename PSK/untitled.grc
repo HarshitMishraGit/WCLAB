@@ -938,7 +938,7 @@
     </param>
     <param>
       <key>name</key>
-      <value>FSK</value>
+      <value>PSK</value>
     </param>
     <param>
       <key>nconnections</key>
