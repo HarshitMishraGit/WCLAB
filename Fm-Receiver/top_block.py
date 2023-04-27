@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Thu Apr 13 15:59:03 2023
+# Generated: Wed Apr 19 14:44:49 2023
 ##################################################
 
 if __name__ == '__main__':
@@ -79,9 +79,9 @@ class top_block(gr.top_block, Qt.QWidget):
         )
         self.uhd_usrp_source_0.set_samp_rate(samp_rate)
         self.uhd_usrp_source_0.set_center_freq(fm_station, 0)
-        self.uhd_usrp_source_0.set_gain(60, 0)
+        self.uhd_usrp_source_0.set_gain(80, 0)
         self.uhd_usrp_source_0.set_antenna("RX2", 0)
-        self.uhd_usrp_source_0.set_bandwidth(samp_rate, 0)
+        self.uhd_usrp_source_0.set_bandwidth(1.53e6, 0)
         self.qtgui_freq_sink_x_0_0 = qtgui.freq_sink_c(
         	1024, #size
         	firdes.WIN_BLACKMAN_hARRIS, #wintype
@@ -165,7 +165,7 @@ class top_block(gr.top_block, Qt.QWidget):
         self._qtgui_freq_sink_x_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0.pyqwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_freq_sink_x_0_win)
         self.low_pass_filter_0 = filter.fir_filter_ccf(4, firdes.low_pass(
-        	1, 1.536e6, 96000, 15000, firdes.WIN_HAMMING, 6.76))
+        	1, 1.536e6, 96000, 15000, firdes.WIN_BLACKMAN, 6.76))
         self.audio_sink_0 = audio.sink(48000, "", True)
         self.analog_wfm_rcv_0 = analog.wfm_rcv(
         	quad_rate=samp_rate/4,
@@ -192,9 +192,8 @@ class top_block(gr.top_block, Qt.QWidget):
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-        self.uhd_usrp_source_0.set_samp_rate(self.samp_rate)
-        self.uhd_usrp_source_0.set_bandwidth(self.samp_rate, 0)
         self.qtgui_freq_sink_x_0.set_frequency_range(100e6, self.samp_rate)
+        self.uhd_usrp_source_0.set_samp_rate(self.samp_rate)
 
     def get_fm_station(self):
         return self.fm_station

@@ -297,7 +297,7 @@
     </param>
     <param>
       <key>file</key>
-      <value>/home/lekha/Downloads/re.wav</value>
+      <value>/home/lekha/Downloads</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -690,7 +690,7 @@
     </param>
     <param>
       <key>center_freq0</key>
-      <value>95.5e6</value>
+      <value>96e6</value>
     </param>
     <param>
       <key>norm_gain0</key>

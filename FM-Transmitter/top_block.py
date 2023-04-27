@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Thu Apr 13 16:04:49 2023
+# Generated: Wed Apr 19 15:14:22 2023
 ##################################################
 
 if __name__ == '__main__':
@@ -75,7 +75,7 @@ class top_block(gr.top_block, Qt.QWidget):
         	),
         )
         self.uhd_usrp_sink_0.set_samp_rate(samp_rate)
-        self.uhd_usrp_sink_0.set_center_freq(95.5e6, 0)
+        self.uhd_usrp_sink_0.set_center_freq(96e6, 0)
         self.uhd_usrp_sink_0.set_gain(80, 0)
         self.uhd_usrp_sink_0.set_antenna("TX/RX", 0)
         self.uhd_usrp_sink_0.set_bandwidth(1.536e6, 0)
@@ -129,7 +129,7 @@ class top_block(gr.top_block, Qt.QWidget):
         self._fm_station_range = Range(85e6, 105e6, 100, 100e6, 200)
         self._fm_station_win = RangeWidget(self._fm_station_range, self.set_fm_station, "fm_station", "counter_slider", float)
         self.top_layout.addWidget(self._fm_station_win)
-        self.blocks_wavfile_source_0 = blocks.wavfile_source("/home/lekha/Downloads/re.wav", True)
+        self.blocks_wavfile_source_0 = blocks.wavfile_source("/home/lekha/Downloads", True)
         self.blocks_add_xx_0 = blocks.add_vff(1)
         self.analog_wfm_tx_0 = analog.wfm_tx(
         	audio_rate=44100,
