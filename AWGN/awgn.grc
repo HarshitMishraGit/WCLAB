@@ -400,33 +400,6 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(320, 13)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>taps</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>1</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
       <value>1</value>
     </param>
     <param>
@@ -444,6 +417,33 @@
     <param>
       <key>value</key>
       <value>1,0.6,0.4,0.01</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(320, 13)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>taps</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -1214,7 +1214,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(728, 510)</value>
+      <value>(728, 406)</value>
     </param>
     <param>
       <key>gui_hint</key>
