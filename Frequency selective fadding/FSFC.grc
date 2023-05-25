@@ -128,7 +128,7 @@
     </param>
     <param>
       <key>gui_hint</key>
-      <value>2,0,1,1</value>
+      <value>2,1,1,1</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -323,11 +323,70 @@
     </param>
     <param>
       <key>const_points</key>
-      <value>[0.707-0.707j, -0.707-0.707j, -0.707+0.707j,0.707+0.707j]</value>
+      <value>[0.382+0.923j,0.923+0.382j,0.923-0.382j,0.382-0.923j,-0.382-0.923j,-0.923-0.382j,-0.923+0.382j,-0.382+0.923j]</value>
     </param>
     <param>
       <key>_enabled</key>
       <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(256, 539)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>psk8</value>
+    </param>
+    <param>
+      <key>imag_sect</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>real_sect</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>rot_sym</key>
+      <value>4</value>
+    </param>
+    <param>
+      <key>soft_dec_lut</key>
+      <value>None</value>
+    </param>
+    <param>
+      <key>precision</key>
+      <value>8</value>
+    </param>
+    <param>
+      <key>sym_map</key>
+      <value>[0,1,2,3,4,5,6,7]</value>
+    </param>
+    <param>
+      <key>w_imag_sect</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>w_real_sect</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>variable_constellation_rect</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>const_points</key>
+      <value>[0.707-0.707j, -0.707-0.707j, -0.707+0.707j,0.707+0.707j]</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -578,7 +637,7 @@
     </param>
     <param>
       <key>K</key>
-      <value>100</value>
+      <value>k</value>
     </param>
     <param>
       <key>seed</key>
@@ -652,7 +711,7 @@
     </param>
     <param>
       <key>constellation</key>
-      <value>qpsk</value>
+      <value>psk8</value>
     </param>
     <param>
       <key>affinity</key>
@@ -1223,7 +1282,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(576, 526)</value>
+      <value>(592, 526)</value>
     </param>
     <param>
       <key>gui_hint</key>

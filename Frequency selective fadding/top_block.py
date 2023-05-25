@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Thu May 25 15:14:45 2023
+# Generated: Thu May 25 15:53:58 2023
 ##################################################
 
 if __name__ == '__main__':
@@ -65,7 +65,7 @@ class top_block(gr.top_block, Qt.QWidget):
         self.nfilts = nfilts = 32
         self.samp_rate = samp_rate = 32000
         self.rrc_taps = rrc_taps = firdes.root_raised_cosine(nfilts, nfilts, 1.0/float(sps), 0.35, 11*sps*nfilts)
-        self.qpsk = qpsk = digital.constellation_rect(([0.707-0.707j, -0.707-0.707j, -0.707+0.707j,0.707+0.707j]), ([0, 1, 2, 3]), 4, 2, 2, 1, 1).base()
+        self.psk8 = psk8 = digital.constellation_rect(([0.382+0.923j,0.923+0.382j,0.923-0.382j,0.382-0.923j,-0.382-0.923j,-0.923-0.382j,-0.923+0.382j,-0.382+0.923j]), ([0,1,2,3,4,5,6,7]), 4, 2, 2, 1, 1).base()
         self.numpoints = numpoints = 10000
         self.k = k = 0
         self.excess_bw = excess_bw = 0.35
@@ -75,9 +75,12 @@ class top_block(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
+        self._k_range = Range(0, 100, 0.5, 0, 200)
+        self._k_win = RangeWidget(self._k_range, self.set_k, "k", "counter_slider", float)
+        self.top_grid_layout.addWidget(self._k_win, 2,0,1,1)
         self._d_range = Range(0, 10, 0.05, 0, 200)
         self._d_win = RangeWidget(self._d_range, self.set_d, "d", "counter_slider", float)
-        self.top_grid_layout.addWidget(self._d_win, 2,0,1,1)
+        self.top_grid_layout.addWidget(self._d_win, 2,1,1,1)
         self.qtgui_const_sink_x_0_0_1 = qtgui.const_sink_c(
         	numpoints, #size
         	"o/p after timing correction", #name
@@ -238,13 +241,10 @@ class top_block(gr.top_block, Qt.QWidget):
         
         self._qtgui_const_sink_x_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0.pyqwidget(), Qt.QWidget)
         self.top_grid_layout.addWidget(self._qtgui_const_sink_x_0_win, 0,0,1,1)
-        self._k_range = Range(0, 100, 0.5, 0, 200)
-        self._k_win = RangeWidget(self._k_range, self.set_k, "k", "counter_slider", float)
-        self.top_grid_layout.addWidget(self._k_win, 2,0,1,1)
         self.digital_pfb_clock_sync_xxx_0 = digital.pfb_clock_sync_ccf(4, 6.28/100, (rrc_taps), nfilts, nfilts/2, 1.5, 2)
         self.digital_costas_loop_cc_0 = digital.costas_loop_cc(6.28/100, arity, True)
         self.digital_constellation_modulator_0 = digital.generic_mod(
-          constellation=qpsk,
+          constellation=psk8,
           differential=True,
           samples_per_symbol=sps,
           pre_diff_code=True,
@@ -253,7 +253,7 @@ class top_block(gr.top_block, Qt.QWidget):
           log=False,
           )
         self.digital_cma_equalizer_cc_0 = digital.cma_equalizer_cc(12, 1, 0.01, 2)
-        self.channels_selective_fading_model_0 = channels.selective_fading_model( 8, d/samp_rate, True, 100, 0, (0,0.2,20), (1,0.8,0.06), 8 )
+        self.channels_selective_fading_model_0 = channels.selective_fading_model( 8, d/samp_rate, True, k, 0, (0,0.2,20), (1,0.8,0.06), 8 )
         self.analog_random_source_x_0 = blocks.vector_source_b(map(int, numpy.random.randint(0, 256, numpoints)), True)
 
         ##################################################
@@ -303,11 +303,11 @@ class top_block(gr.top_block, Qt.QWidget):
         self.rrc_taps = rrc_taps
         self.digital_pfb_clock_sync_xxx_0.update_taps((self.rrc_taps))
 
-    def get_qpsk(self):
-        return self.qpsk
+    def get_psk8(self):
+        return self.psk8
 
-    def set_qpsk(self, qpsk):
-        self.qpsk = qpsk
+    def set_psk8(self, psk8):
+        self.psk8 = psk8
 
     def get_numpoints(self):
         return self.numpoints
@@ -320,6 +320,7 @@ class top_block(gr.top_block, Qt.QWidget):
 
     def set_k(self, k):
         self.k = k
+        self.channels_selective_fading_model_0.set_K(self.k)
 
     def get_excess_bw(self):
         return self.excess_bw
