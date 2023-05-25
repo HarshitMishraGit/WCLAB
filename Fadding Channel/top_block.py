@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Thu May 25 14:51:28 2023
+# Generated: Thu May 25 15:15:25 2023
 ##################################################
 
 if __name__ == '__main__':
@@ -63,25 +63,20 @@ class top_block(gr.top_block, Qt.QWidget):
         ##################################################
         self.sps = sps = 4
         self.nfilts = nfilts = 32
-        self.time_offset = time_offset = 1.00
-        self.taps = taps = 1,0.6,0.4,0.01
         self.samp_rate = samp_rate = 32000
         self.rrc_taps = rrc_taps = firdes.root_raised_cosine(nfilts, nfilts, 1.0/float(sps), 0.35, 11*sps*nfilts)
         self.qpsk = qpsk = digital.constellation_rect(([0.707-0.707j, -0.707-0.707j, -0.707+0.707j,0.707+0.707j]), ([0, 1, 2, 3]), 4, 2, 2, 1, 1).base()
         self.numpoints = numpoints = 10000
-        self.freq_offset = freq_offset = 0
+        self.k = k = 0
         self.excess_bw = excess_bw = 0.35
         self.arity = arity = 4
 
         ##################################################
         # Blocks
         ##################################################
-        self._time_offset_range = Range(0.8, 1.5, 0.01, 1.00, 200)
-        self._time_offset_win = RangeWidget(self._time_offset_range, self.set_time_offset, "time_offset", "counter_slider", float)
-        self.top_grid_layout.addWidget(self._time_offset_win, 2,0,1,1)
-        self._freq_offset_range = Range(0, 0.06, 0.005, 0, 200)
-        self._freq_offset_win = RangeWidget(self._freq_offset_range, self.set_freq_offset, "freq_offset", "counter_slider", float)
-        self.top_grid_layout.addWidget(self._freq_offset_win, 2,1,1,1)
+        self._k_range = Range(0, 100, 0.5, 0, 200)
+        self._k_win = RangeWidget(self._k_range, self.set_k, "k", "counter_slider", float)
+        self.top_grid_layout.addWidget(self._k_win, 2,0,1,1)
         self.qtgui_const_sink_x_0_0_1 = qtgui.const_sink_c(
         	numpoints, #size
         	"o/p after timing correction", #name
@@ -254,28 +249,21 @@ class top_block(gr.top_block, Qt.QWidget):
           log=False,
           )
         self.digital_cma_equalizer_cc_0 = digital.cma_equalizer_cc(12, 1, 0.01, 2)
-        self.channel_model = channels.channel_model(
-        	noise_voltage=0.02,
-        	frequency_offset=freq_offset,
-        	epsilon=time_offset,
-        	taps=(taps),
-        	noise_seed=0,
-        	block_tags=False
-        )
+        self.channels_fading_model_0 = channels.fading_model( 8, 10.0/samp_rate, True, k, 0 )
         self.analog_random_source_x_0 = blocks.vector_source_b(map(int, numpy.random.randint(0, 256, numpoints)), True)
 
         ##################################################
         # Connections
         ##################################################
         self.connect((self.analog_random_source_x_0, 0), (self.digital_constellation_modulator_0, 0))    
-        self.connect((self.channel_model, 0), (self.digital_pfb_clock_sync_xxx_0, 0))    
-        self.connect((self.channel_model, 0), (self.qtgui_const_sink_x_0, 0))    
+        self.connect((self.channels_fading_model_0, 0), (self.digital_pfb_clock_sync_xxx_0, 0))    
+        self.connect((self.channels_fading_model_0, 0), (self.qtgui_const_sink_x_0, 0))    
         self.connect((self.digital_cma_equalizer_cc_0, 0), (self.qtgui_const_sink_x_0_0_0, 0))    
-        self.connect((self.digital_constellation_modulator_0, 0), (self.channel_model, 0))    
+        self.connect((self.digital_constellation_modulator_0, 0), (self.channels_fading_model_0, 0))    
         self.connect((self.digital_costas_loop_cc_0, 0), (self.digital_cma_equalizer_cc_0, 0))    
         self.connect((self.digital_costas_loop_cc_0, 0), (self.qtgui_const_sink_x_0_0, 0))    
+        self.connect((self.digital_costas_loop_cc_0, 0), (self.qtgui_const_sink_x_0_0_1, 0))    
         self.connect((self.digital_pfb_clock_sync_xxx_0, 0), (self.digital_costas_loop_cc_0, 0))    
-        self.connect((self.digital_pfb_clock_sync_xxx_0, 0), (self.qtgui_const_sink_x_0_0_1, 0))    
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "top_block")
@@ -297,25 +285,12 @@ class top_block(gr.top_block, Qt.QWidget):
         self.nfilts = nfilts
         self.set_rrc_taps(firdes.root_raised_cosine(self.nfilts, self.nfilts, 1.0/float(self.sps), 0.35, 11*self.sps*self.nfilts))
 
-    def get_time_offset(self):
-        return self.time_offset
-
-    def set_time_offset(self, time_offset):
-        self.time_offset = time_offset
-        self.channel_model.set_timing_offset(self.time_offset)
-
-    def get_taps(self):
-        return self.taps
-
-    def set_taps(self, taps):
-        self.taps = taps
-        self.channel_model.set_taps((self.taps))
-
     def get_samp_rate(self):
         return self.samp_rate
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
+        self.channels_fading_model_0.set_fDTs(10.0/self.samp_rate)
 
     def get_rrc_taps(self):
         return self.rrc_taps
@@ -336,12 +311,12 @@ class top_block(gr.top_block, Qt.QWidget):
     def set_numpoints(self, numpoints):
         self.numpoints = numpoints
 
-    def get_freq_offset(self):
-        return self.freq_offset
+    def get_k(self):
+        return self.k
 
-    def set_freq_offset(self, freq_offset):
-        self.freq_offset = freq_offset
-        self.channel_model.set_frequency_offset(self.freq_offset)
+    def set_k(self, k):
+        self.k = k
+        self.channels_fading_model_0.set_K(self.k)
 
     def get_excess_bw(self):
         return self.excess_bw
