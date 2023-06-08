@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Mon Apr  3 15:35:13 2023
+# Generated: Thu Jun  8 14:11:32 2023
 ##################################################
 
 if __name__ == '__main__':
@@ -192,11 +192,11 @@ class top_block(gr.top_block, Qt.QWidget):
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
         self.Carrier.set_sampling_freq(self.samp_rate)
-        self.Message.set_sampling_freq(self.samp_rate)
         self.analog_sig_source_x_0.set_sampling_freq(self.samp_rate)
         self.blocks_throttle_0.set_sample_rate(self.samp_rate)
-        self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
         self.qtgui_time_sink_x_0_0.set_samp_rate(self.samp_rate)
+        self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
+        self.Message.set_sampling_freq(self.samp_rate)
 
     def get_numpoints(self):
         return self.numpoints
