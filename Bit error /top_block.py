@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Thu Jun  8 15:11:42 2023
+# Generated: Tue Jun 20 15:57:35 2023
 ##################################################
 
 if __name__ == '__main__':
@@ -235,16 +235,16 @@ class top_block(gr.top_block, Qt.QWidget):
 
     def set_const_type(self, const_type):
         self.const_type = const_type
-        self.digital_chunks_to_symbols_xx_0.set_symbol_table((self.const[self.const_type].points()))
         self.analog_noise_source_x_1.set_amplitude(1.0/math.sqrt(2.0*self.const[self.const_type].bits_per_symbol()*10**(self.EbN0/10)))
+        self.digital_chunks_to_symbols_xx_0.set_symbol_table((self.const[self.const_type].points()))
 
     def get_const(self):
         return self.const
 
     def set_const(self, const):
         self.const = const
-        self.digital_chunks_to_symbols_xx_0.set_symbol_table((self.const[self.const_type].points()))
         self.analog_noise_source_x_1.set_amplitude(1.0/math.sqrt(2.0*self.const[self.const_type].bits_per_symbol()*10**(self.EbN0/10)))
+        self.digital_chunks_to_symbols_xx_0.set_symbol_table((self.const[self.const_type].points()))
 
     def get_EbN0(self):
         return self.EbN0
